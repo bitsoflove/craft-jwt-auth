@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.2.1 - 2022-03-07
+
+### Changed
+
+- Disable JWT on console application
+
+- Enable access key from environment
+
 ## 0.2.0 - 2019-10-06
 
 ### Added

@@ -22,9 +22,9 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Token;
 
 /**
- * @author    Mike Pierce
+ * @author    Mike Pierce, Stijn Tilleman
  * @package   CraftJwtAuth
- * @since     0.1.0
+ * @since     0.0.1
  */
 class JWT extends Component
 {
@@ -85,7 +85,7 @@ class JWT extends Component
     */
     public function verifyJWT(Token $token)
     {
-        $secretKey = CraftJwtAuth::getInstance()->getSettings()->secretKey;
+        $secretKey = Craft::parseEnv(CraftJwtAuth::getInstance()->getSettings()->secretKey);
 
         // Attempt to verify the token
         $verify = $token->verify((new Sha256()), $secretKey);

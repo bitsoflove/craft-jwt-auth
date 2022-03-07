@@ -11,21 +11,19 @@
 
 namespace edenspiekermann\craftjwtauth;
 
-use edenspiekermann\craftjwtauth\services\JWT as JWTService;
-use edenspiekermann\craftjwtauth\models\Settings;
-
 use Craft;
 use craft\base\Plugin;
 use craft\web\Application;
-
+use edenspiekermann\craftjwtauth\models\Settings;
+use edenspiekermann\craftjwtauth\services\JWT as JWTService;
 use yii\base\Event;
 
 /**
  * Class CraftJwtAuth
  *
- * @author    Mike Pierce
+ * @author    Mike Pierce, Stijn Tilleman
  * @package   CraftJwtAuth
- * @since     0.1.0
+ * @since     0.0.1
  *
  * @property  JWTService $jWT
  */
@@ -58,7 +56,7 @@ class CraftJwtAuth extends Plugin
         parent::init();
         self::$plugin = $this;
 
-        Craft::$app->on(Application::EVENT_INIT, function (Event $event) {
+        Event::on(Application::class, Application::EVENT_INIT, function (Event $event) {
             $token = self::$plugin->jWT->parseAndVerifyJWT(self::$plugin->jWT->getJWTFromRequest());
 
             // If the token passes verification...
@@ -72,12 +70,11 @@ class CraftJwtAuth extends Plugin
                 }
 
                 // Attempt to login as the user we have found or created
-                if ($user->id) {
+                if ($user && $user->id) {
                     Craft::$app->user->loginByUserId($user->id);
                 }
             }
         });
-
         Craft::info(
             Craft::t(
                 'craft-jwt-auth',
@@ -107,7 +104,7 @@ class CraftJwtAuth extends Plugin
         return Craft::$app->view->renderTemplate(
             'craft-jwt-auth/settings',
             [
-                'settings' => $this->getSettings()
+                'settings' => $this->getSettings(),
             ]
         );
     }

@@ -14,8 +14,8 @@ namespace edenspiekermann\craftjwtauth\services;
 use Craft;
 use craft\base\Component;
 use craft\elements\User;
-use craft\helpers\StringHelper;
 use craft\helpers\ArrayHelper;
+use craft\helpers\StringHelper;
 use edenspiekermann\craftjwtauth\CraftJwtAuth;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
@@ -40,7 +40,7 @@ class JWT extends Component
         $accessToken = Craft::$app->request->headers->get('authorization') ?: Craft::$app->request->headers->get('x-access-token');
 
         // If "Bearer " is present, strip it to get the token.
-        if (StringHelper::startsWith($accessToken, 'Bearer ')) {
+        if (StringHelper::startsWith($accessToken, 'Bearer ', false)) {
             $accessToken = StringHelper::substr($accessToken, 7);
         }
 
